@@ -1,4 +1,4 @@
-"use client";
+use client";
 import {useState} from "react";
 const D=[["Zambezi Traders","Wholesale",184000,121000,0,1,0,1],["Kariba Fuel Supplies","Fuel",96000,90500,1,0,0,0],["Mbare Auto Spares","Retail",72000,71200,0,0,0,1],["Highveld Steel & Co","Manufacturing",240000,150000,1,1,1,0],["Save Valley Foods","Food",58000,55800,0,0,0,0],["Bulawayo Tech Imports","Electronics",133000,88000,1,1,0,1],["Gweru Building Supplies","Construction",64000,61000,0,0,0,0],["Eastern Cross Logistics","Transport",110000,84000,1,0,1,0]];
 const HEADS=[["VAT",28],["PAYE",17],["Corporate income tax",14],["Excise duty",9],["Customs duty",7],["IMTT",6]];
