@@ -4,7 +4,8 @@ const D=[["Zambezi Traders","Wholesale",184000,121000,0,1,0,1],["Kariba Fuel Sup
 const HEADS=[["VAT",28],["PAYE",17],["Corporate income tax",14],["Excise duty",9],["Customs duty",7],["IMTT",6]];
 const BORDERS=[["Beitbridge",412,71,1.9],["Forbes",188,29,0.62],["Chirundu",233,38,0.84],["Plumtree",141,17,0.31],["Victoria Falls",96,9,0.18]];
 const ITEMS=[["8703","Used passenger vehicles (each)",2800,7400],["8517","Mobile phones (each)",45,140],["2710","Diesel (per litre)",0.62,0.98],["5407","Woven fabric (per metre)",0.9,1.1],["1006","Rice (per kg)",0.48,0.5]];
-const TABS=[["risk","Risk engine"],["border","Border posts"],["value","Import valuation"],["net","Company network"]];
+const TABS=[["risk","Risk engine"],["border","Border posts"],["value","Import valuation"],["net","Company network"],["track","ZIMRA Tracker"]];
+const LOG=[["30 Jul 2026","Tax-head shares of revenue: VAT 28%, PAYE 17%, corporate income tax 14%, excise 9%, customs 7%, IMTT 6%","Zimbabwe Situation (2026 Mid-term Budget Review)"],["30 Jun 2026","Net collections Jan to May 2026: US$4.34bn, up 47% on US$2.95bn a year earlier","NewsDay"],["30 Jun 2026","Outstanding tax debt up 35.53% to ZiG31.15bn; audits recovered ZiG4.63bn and US$540.73m; over 7,000 routine audits finalised","NewsDay"],["Feb 2026","2026 collection target US$9.2bn; over 50,000 new taxpayers targeted","The Standard / Zimbabwe Situation"],["Jan 2026","VAT rate 15.5% from 1 January 2026; 15% digital services tax introduced","M&J Consultants, RegisterCompany.co.zw"]];
 const STAGES=["Flagged","Assigned","Under audit","Recovered"];
 const N={H:"High",M:"Medium",L:"Low"};
 const COL={H:"var(--bad)",M:"var(--warn)",L:"var(--ok)"};
@@ -22,8 +23,18 @@ function Bar({label,pct,max,text,color}){
     <b style={{flex:"0 0 46px",textAlign:"right"}}>{text}</b>
   </div>;
 }
+function Bars({items,max}){
+  const W=460,H=190,pad=30,step=(W-2*pad)/items.length,bw=Math.min(70,step-16);
+  return <svg viewBox={"0 0 "+W+" "+H} width="100%" role="img" aria-label="Bar chart">
+    {items.map((it,i)=>{const h=it[1]/max*(H-60),x=pad+i*step+(step-bw)/2,y=H-30-h;
+      return <g key={it[0]}><rect x={x} y={y} width={bw} height={h} fill={it[2]} rx="3"/>
+        <text x={x+bw/2} y={y-6} textAnchor="middle" fontSize="12" fontFamily="system-ui" fill="var(--ink)">{it[1].toFixed(2)}</text>
+        <text x={x+bw/2} y={H-12} textAnchor="middle" fontSize="11" fontFamily="system-ui" fill="var(--mut)">{it[0]}</text></g>})}
+    <line x1={pad} y1={H-30} x2={W-pad} y2={H-30} stroke="var(--line)"/>
+  </svg>;
+}
 export default function Page(){
-  const [tab,setTab]=useState("risk");
+  const [tab,setTab]=useState("risk"),[pace,setPace]=useState(100);
   const [sel,setSel]=useState(null),[txt,setTxt]=useState(""),[busy,setBusy]=useState(false),[err,setErr]=useState("");
   const [w,setW]=useState(W0),[st,setSt]=useState({}),[msg,setMsg]=useState("");
   const rows=D.map((r,i)=>({r,i,c:calc(r,w)})).sort((a,b)=>b.c.s-a.c.s);
@@ -32,6 +43,7 @@ export default function Page(){
   const o=sel!==null?rows.find(x=>x.i===sel):null;
   const status=x=>st[x.i]||(x.c.s>=30?"Flagged":"Monitor");
   const bDecl=BORDERS.reduce((a,b)=>a+b[1],0),bFlag=BORDERS.reduce((a,b)=>a+b[2],0),bUsd=BORDERS.reduce((a,b)=>a+b[3],0);
+  const cagr=(Math.pow(7.65/4.56,1/4)-1)*100,monthly=4.34/5,proj=4.34+7*monthly*pace/100,vs=(proj/9.2-1)*100,breakeven=(9.2-4.34)/(7*monthly)*100;
   async function ask(o){
     setBusy(true);setErr("");setTxt("");
     try{
@@ -155,10 +167,42 @@ export default function Page(){
       </div>
     </section>}
 
+    {tab==="track"&&<section>
+      <h2>ZIMRA Tracker <span className="tag real">Published figures and projections</span></h2>
+      <p className="s">Trend charts and simple projections worked out from published figures. Projections are estimates, not official forecasts. New reports are added to the tracked-updates list below.</p>
+      <div className="grid">
+        <div className="k"><b>{cagr.toFixed(1)}%</b><span>Average yearly growth in collections, 2021 to 2025</span></div>
+        <div className="k"><b>+47%</b><span>Jan to May 2026 vs same period 2025</span></div>
+        <div className="k"><b>{breakeven.toFixed(0)}%</b><span>Pace of the Jan to May monthly average needed to still meet the US$9.2bn target</span></div>
+      </div>
+      <div className="k" style={{marginTop:10}}>
+        <div className="s" style={{margin:0}}>Annual collections, US$ billion</div>
+        <Bars max={11} items={[["2021",4.56,"var(--mut)"],["2025",7.65,"var(--acc)"],["2026 target",9.2,"var(--warn)"],["2026 at pace",10.42,"var(--ok)"]]}/>
+        <div className="s" style={{margin:"4px 0 0"}}>2021, 2025 and target are published. "At pace" assumes the Jan to May monthly average continues (US$4.34bn / 5 x 12).</div>
+      </div>
+      <div className="k" style={{marginTop:10}}>
+        <div className="s" style={{margin:0}}>Jan to May, US$ billion</div>
+        <Bars max={5} items={[["Jan-May 2025",2.95,"var(--mut)"],["Jan-May 2026",4.34,"var(--acc)"]]}/>
+      </div>
+      <div className="k" style={{marginTop:10}}>
+        <b style={{fontSize:"1rem"}}>What-if projection</b>
+        <div className="s" style={{margin:"4px 0"}}>If the remaining 7 months run at {pace}% of the Jan to May monthly average:</div>
+        <input type="range" min="50" max="120" value={pace} onChange={e=>setPace(+e.target.value)} style={{width:"100%"}} aria-label="Pace of remaining months as a percentage of the Jan to May average"/>
+        <div style={{fontFamily:"system-ui"}}>2026 would finish at about <b style={{color:vs>=0?"var(--ok)":"var(--bad)"}}>US${proj.toFixed(1)}bn</b>, {Math.abs(vs).toFixed(0)}% {vs>=0?"above":"below"} the US$9.2bn target.</div>
+        <div className="s" style={{margin:"6px 0 0"}}>Simple arithmetic on published figures. It ignores seasonality and whether the target is measured net or gross.</div>
+      </div>
+      <h2>Watch points</h2>
+      <div className="k s" style={{margin:0}}>Outstanding tax debt rose 35.53% to ZiG31.15bn, which ZIMRA links to intensive compliance checks, and industry analysts warn that revenue growth can hide pressure on compliant businesses. A tool like this helps target audits at real risk instead of adding load to honest taxpayers.</div>
+      <h2>Tracked updates</h2>
+      <div className="wrap"><table><thead><tr><th>Date</th><th>Update</th><th>Source</th></tr></thead><tbody>
+        {LOG.map(l=><tr key={l[0]+l[2]}><td style={{whiteSpace:"nowrap"}}>{l[0]}</td><td>{l[1]}</td><td>{l[2]}</td></tr>)}
+      </tbody></table></div>
+    </section>}
+
     <h2>Data protection <span className="tag real">Pilot design principles</span></h2>
     <div className="k s" style={{margin:0}}>
       Demo uses synthetic data only. For a pilot the design is: officer logins with roles, a log of who viewed which case, data kept inside ZIMRA-approved systems, and every flag shown with its reasons so an officer decides. Flags are leads for review, not proof of wrongdoing.
     </div>
 
     <footer>Sources: NewsDay (30 Jun 2026); Zimbabwe Situation, 2026 Mid-term Budget Review (30 Jul 2026); M&amp;J Consultants and RegisterCompany.co.zw (2026 VAT rate of 15.5%). Taxpayer, border and valuation figures are synthetic.</footer>
-  </main>} 
+  </main>}
