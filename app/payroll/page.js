@@ -1,5 +1,5 @@
 "use client";
-import {useState} from "react";
+import {useMemo, useState} from "react";
 // Synthetic civil-service payroll records: [name, dept, nationalId, bankAcct, status, monthsSinceBio, salaryUSD]
 const E=[
   ["Tendai Moyo","Education","63-112233A47","ACC-558231","Active",1,620],
@@ -36,7 +36,22 @@ function Bar({label,pct,max,text,color}){
 }
 export default function Payroll(){
   const [sel,setSel]=useState(null);
-  const rows=E.map((e,i)=>({e,i,c:calc(e)})).sort((a,b)=>b.c.s-a.c.s);
+  const [query,setQuery]=useState("");
+  const [riskFilter,setRiskFilter]=useState("All");
+  const rows=useMemo(()=>E.map((e,i)=>({e,i,c:calc(e)})).sort((a,b)=>b.c.s-a.c.s),[]);
+  const visible=rows.filter(x=>{
+    const q=query.toLowerCase();
+    const matches=(x.e[0]+" "+x.e[1]+" "+x.e[4]).toLowerCase().includes(q);
+    const band=riskFilter==="All"||N[x.c.l]===riskFilter;
+    return matches&&band;
+  });
+  function exportPayroll(){
+    const header=["Name","Department","Status","Monthly salary USD","Review score","Risk band","Review signals"];
+    const data=visible.map(x=>[x.e[0],x.e[1],x.e[4].trim(),x.e[6],x.c.s,N[x.c.l],x.c.p.map(p=>p[0]).join("; ")]);
+    const csv=[header,...data].map(row=>row.map(v=>'"'+String(v).replaceAll('"','""')+'"').join(",")).join("\\n");
+    const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
+    const a=document.createElement("a");a.href=url;a.download="payroll-integrity-demo-review.csv";a.click();URL.revokeObjectURL(url);
+  }
   const flagged=rows.filter(x=>x.c.s>=30);
   const monthlyAtRisk=flagged.reduce((a,x)=>a+x.e[6],0);
   const o=sel!==null?rows.find(x=>x.i===sel):null;
@@ -53,9 +68,17 @@ export default function Payroll(){
       <div className="k"><b style={{color:"var(--bad)"}}>${monthlyAtRisk.toLocaleString()}</b><span>Monthly salary tied to flagged records in this demo sample</span></div>
       <div className="k"><b>{flagged.length} of {E.length}</b><span>Records flagged for review</span></div>
     </div>
-    <p className="s" style={{marginTop:10}}>Select a record to see why it was flagged.</p>
+    <p className="s" style={{marginTop:10}}>Search, filter and select a record to inspect its review signals. All actions use synthetic records.</p>
+    <div style={{display:"flex",gap:8,flexWrap:"wrap",margin:"10px 0"}}>
+      <input aria-label="Search payroll records" value={query} onChange={e=>setQuery(e.target.value)} placeholder="Search name, department or status..." style={{padding:9,border:"1px solid #dce3e9",borderRadius:6,minWidth:220,flex:"1 1 220px"}}/>
+      <select aria-label="Filter payroll risk" value={riskFilter} onChange={e=>setRiskFilter(e.target.value)} style={{padding:9,border:"1px solid #dce3e9",borderRadius:6}}>
+        <option>All</option><option>High</option><option>Medium</option><option>Low</option>
+      </select>
+      <button type="button" onClick={exportPayroll} style={{padding:"9px 13px",border:0,borderRadius:6,background:"var(--acc)",color:"#fff",fontWeight:700}}>Export review CSV</button>
+      <button type="button" onClick={()=>{setQuery("");setRiskFilter("All");setSel(null);}} style={{padding:"9px 13px",border:"1px solid #dce3e9",borderRadius:6,background:"#fff"}}>Reset filters</button>
+    </div>
     <div className="wrap"><table><thead><tr><th>Name</th><th>Dept</th><th>Status</th><th>Monthly salary</th><th>Score</th></tr></thead><tbody>
-      {rows.map(x=><tr key={x.i} className={"r"+(sel===x.i?" sel":"")} onClick={()=>setSel(x.i)}>
+      {visible.map(x=><tr key={x.i} className={"r"+(sel===x.i?" sel":"")} onClick={()=>setSel(x.i)}>
         <td>{x.e[0]}</td><td>{x.e[1]}</td><td>{x.e[4]}</td><td>${x.e[6].toLocaleString()}</td><td className={"sc "+x.c.l}>{x.c.s} {N[x.c.l]}</td></tr>)}
     </tbody></table></div>
 
