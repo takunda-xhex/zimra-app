@@ -1,6 +1,6 @@
 # Revenue Intelligence Platform (Independent Concept Prototype)
 
-A Zimbabwe-born, regionally extensible concept for an explainable intelligence layer that works alongside institution-owned systems. The product direction is to connect approved data sources, reconcile and analyse authorised information, surface explainable review leads, and keep statutory decisions with authorised human officers. The initial market focus is Zimbabwe, followed by Southern Africa and other regions through country-specific adaptations.
+A Zimbabwe-born, regionally extensible concept for an explainable intelligence layer that works alongside institution-owned systems. The chosen product direction is hybrid: integrate with existing systems first, augment selected workflows, and replace individual modules only when the institution requests it and evidence, migration, security and acceptance gates are satisfied. AI automation is guarded: it may assist and prepare work, while consequential statutory decisions remain with authorised human officers. The initial market focus is Zimbabwe, followed by Southern Africa and other regions through country-specific adaptations.
 
 > **Important:** This is an independent concept prototype. It is not an official ZIMRA system, is not endorsed or operated by the Zimbabwe Revenue Authority, and is not connected to live government systems. "ZIMRA" is a working repository/product label only; obtain legal advice on naming, trademark and institutional-affiliation risks before public commercial use. All dashboard records and figures are synthetic demonstration examples unless explicitly documented otherwise.
 
@@ -58,6 +58,7 @@ npm run build
 - [Regional pilot and deployment readiness](docs/REGIONAL-PILOT-READINESS.md)
 - [Product and commercial strategy](docs/PRODUCT-AND-COMMERCIAL-STRATEGY.md)
 - [Target technical architecture](docs/TARGET-TECHNICAL-ARCHITECTURE.md)
+- [Implementation roadmap](docs/IMPLEMENTATION-ROADMAP.md)
 
 ## Before a controlled pilot
 
