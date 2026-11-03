@@ -26,8 +26,8 @@ A Zimbabwe-born, regionally extensible concept for an explainable intelligence l
 | Local demo case status and CSV export | Implemented in browser state |
 | Customs workflow example | Illustrative UI only |
 | Integration gateway and FDMS/TaRMS/ASYCUDA adapters | Not implemented |
-| Production identity, MFA and role-based access | Not implemented |
-| Persistent case database and tamper-evident audit trail | Not implemented |
+| Supabase SSR client and session-refresh foundation (review branch only) | Implemented; preview environment variables only |\n| Sign-in page for pre-provisioned accounts | Implemented; no public signup |\n| Production identity, MFA and server-enforced role-based access | Not implemented |
+| Dedicated Supabase schema with initial RLS and audit-event trigger foundation | Implemented in separate project; requires security review |\n| Audit Action UI connected to persistent records | Not implemented |\n| Persistent case database and independently validated tamper-evident audit trail | Not implemented |
 | Validated machine-learning models | Not implemented |
 | Production hosting and live government data | Not authorised or configured |
 
@@ -37,7 +37,7 @@ A Zimbabwe-born, regionally extensible concept for an explainable intelligence l
 - React 19
 - Vercel deployment
 
-The current app uses synthetic in-code examples. There is no confirmed ZIMRA Supabase project or production database integration. Do not connect live taxpayer, customs, employee, identity, banking or biometric data until the relevant data owners have approved the legal basis, architecture, security controls and pilot scope in writing.
+The current app still uses synthetic in-code examples. A separate Supabase project has been prepared and the `review-app` branch has a preview-only connection foundation. The Audit Action UI is not yet reading from or writing to that database; no production database integration exists. Do not connect live taxpayer, customs, employee, identity, banking or biometric data until the relevant data owners have approved the legal basis, architecture, security controls and pilot scope in writing.
 
 ## Run locally
 
@@ -54,7 +54,7 @@ Build check:
 npm run build
 ```
 
-## Internal Audit flagship module\n\nThe first dedicated internal workflow is available at `/audit-actions`. It demonstrates an audit finding lifecycle: finding and recommendation, management response and action plan, evidence references, independent validation, verified closure and activity history. The role switcher is a demonstration only, not authentication or access control. Records are synthetic and held in browser memory; evidence files are not uploaded. It is not connected to ZIMRA systems or an authoritative audit register.\n\n## Product and governance documentation
+## Authentication and database foundation (review branch)\n\n- Supabase browser/server clients use `@supabase/ssr` and the publishable key.\n- Session refresh middleware is configured for the Next.js app.\n- `/login` supports sign-in for accounts provisioned out-of-band; public signup is intentionally absent.\n- The preview environment variables are scoped to the `review-app` branch only. No service-role or secret key is present in the app.\n- New profiles default to pending/inactive. Administrator provisioning and server-side role checks must be completed before any protected records are exposed.\n- The Audit Action module remains synthetic and browser-only until database-backed CRUD and role checks are implemented and tested.\n\n## Internal Audit flagship module\n\nThe first dedicated internal workflow is available at `/audit-actions`. It demonstrates an audit finding lifecycle: finding and recommendation, management response and action plan, evidence references, independent validation, verified closure and activity history. The role switcher is a demonstration only, not authentication or access control. Records are synthetic and held in browser memory; evidence files are not uploaded. It is not connected to ZIMRA systems or an authoritative audit register.\n\n## Product and governance documentation
 
 - [Regional pilot and deployment readiness](docs/REGIONAL-PILOT-READINESS.md)
 - [Product and commercial strategy](docs/PRODUCT-AND-COMMERCIAL-STRATEGY.md)
