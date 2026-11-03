@@ -27,8 +27,8 @@ function parseCSV(text){
   if(["business","period","fiscal","declared"].some(k=>ix[k]<0)) throw new Error("Required columns: business, period, fiscal_sales, declared_sales. payments_received is optional.");
   return rows.slice(1).map((r,i)=>{
     const num=v=>{const x=Number(String(v??"").replace(/[$,\s]/g,""));return Number.isFinite(x)?x:NaN;};
-    const fiscal=num(r[ix.fiscal]),declared=num(r[ix.declared]),paid=ix.payments<0?null:num(r[ix.payments]);
-    if(!r[ix.business]||!r[ix.period]||!Number.isFinite(fiscal)||!Number.isFinite(declared)||fiscal<0||declared<0) throw new Error("Invalid business, period or amount on CSV data row "+(i+2)+". Amounts must be non-negative numbers.");
+    const fiscal=num(r[ix.fiscal]),declared=num(r[ix.declared]),paid=ix.payments<0||String(r[ix.payments]??"").trim()===""?null:num(r[ix.payments]);
+    if(!r[ix.business]||!r[ix.period]||!Number.isFinite(fiscal)||!Number.isFinite(declared)||fiscal<0||declared<0||(paid!==null&&(!Number.isFinite(paid)||paid<0))) throw new Error("Invalid business, period or amount on CSV data row "+(i+2)+". Amounts must be non-negative numbers.");
     return {id:i+1,business:r[ix.business],period:r[ix.period],fiscal,declared,paid};
   });
 }
@@ -59,6 +59,14 @@ export default function Reconciliation(){
   const visible=results.filter(r=>filter==="All"||r.band===filter);
   const totalVariance=results.reduce((a,r)=>a+Math.max(0,r.variance),0);
   const priority=results.filter(r=>r.band==="Priority").length;
+  function resetSample(){
+    setRows(sample.map((r,i)=>({id:i+1,business:r[0],period:r[1],fiscal:r[2],declared:r[3],paid:r[4]})));
+    setFileName("Built-in synthetic sample");setFilter("All");setError("");
+    if(input.current)input.current.value="";
+  }
+  function clearUploadedFile(){
+    resetSample();
+  }
   function upload(file){
     if(!file)return;
     setError("");
@@ -84,14 +92,14 @@ export default function Reconciliation(){
       <div style={{background:"#fff8e9",border:"1px solid #f0dfbc",borderRadius:10,padding:14,margin:"22px 0",fontSize:13,lineHeight:1.6}}><b>Data handling:</b> Files are processed in this browser session and are not uploaded to a server by this page. Use synthetic or properly authorised, minimised data only. This is a prototype, not a tax assessment or official ZIMRA tool.</div>
       <section style={{background:"white",border:"1px solid #e1e7ec",borderRadius:12,padding:20,display:"flex",justifyContent:"space-between",alignItems:"center",gap:18,flexWrap:"wrap"}}>
         <div><h2 style={{fontSize:17,margin:"0 0 6px"}}>Bring a reconciliation file</h2><p style={{fontSize:12,color:"#758398",margin:0}}>CSV columns: business, period, fiscal_sales, declared_sales, payments_received (optional)</p><p style={{fontSize:11,color:"#8793a2",margin:"7px 0 0"}}>Current file: <b>{fileName}</b></p></div>
-        <div style={{display:"flex",gap:8,flexWrap:"wrap"}}><button onClick={downloadTemplate} style={secondary}>Download CSV template</button><button onClick={()=>input.current?.click()} style={primary}>Upload CSV ↑</button><input ref={input} type="file" accept=".csv,text/csv" hidden onChange={e=>upload(e.target.files?.[0])}/></div>
+        <div style={{display:"flex",gap:8,flexWrap:"wrap"}}><button type="button" onClick={downloadTemplate} style={secondary}>Download CSV template</button><button type="button" onClick={()=>input.current?.click()} style={primary}>Upload CSV ↑</button><button type="button" onClick={clearUploadedFile} style={secondary}>Reset to sample</button><input ref={input} type="file" accept=".csv,text/csv" hidden onChange={e=>upload(e.target.files?.[0])}/></div>
       </section>
       {error&&<p role="alert" style={{color:"#b42332",fontSize:13}}>{error}</p>}
       <div style={{display:"grid",gridTemplateColumns:"repeat(auto-fit,minmax(180px,1fr))",gap:12,margin:"17px 0"}}>
         {[["Rows analysed",results.length],["Priority review leads",priority],["Positive sales variance",fmt(totalVariance)],["Payment differences",results.filter(r=>r.paymentGap!==null&&r.paymentGap>1).length]].map(([k,v])=><div key={k} style={metric}><span style={{fontSize:12,color:"#718096"}}>{k}</span><strong style={{display:"block",fontSize:26,marginTop:8}}>{v}</strong></div>)}
       </div>
       <section style={{background:"white",border:"1px solid #e1e7ec",borderRadius:12,padding:20}}>
-        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12,flexWrap:"wrap",marginBottom:15}}><div><h2 style={{fontSize:17,margin:0}}>Exception review queue</h2><p style={{fontSize:12,color:"#7b8796",margin:"5px 0 0"}}>A variance is a review lead, not proof of undeclared tax or wrongdoing.</p></div><div style={{display:"flex",gap:8}}><select value={filter} onChange={e=>setFilter(e.target.value)} style={secondary}><option>All</option><option>Priority</option><option>Review</option><option>No flag</option></select><button onClick={exportReport} style={primary}>Export report ↓</button></div></div>
+        <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",gap:12,flexWrap:"wrap",marginBottom:15}}><div><h2 style={{fontSize:17,margin:0}}>Exception review queue</h2><p style={{fontSize:12,color:"#7b8796",margin:"5px 0 0"}}>A variance is a review lead, not proof of undeclared tax or wrongdoing.</p></div><div style={{display:"flex",gap:8}}><select value={filter} onChange={e=>setFilter(e.target.value)} style={secondary}><option>All</option><option>Priority</option><option>Review</option><option>No flag</option></select><button type="button" onClick={exportReport} style={primary}>Export report ↓</button></div></div>
         <div style={{overflowX:"auto"}}><table style={{width:"100%",borderCollapse:"collapse",minWidth:850,textAlign:"left"}}><thead><tr>{["Business / period","Fiscal sales","Declared sales","Variance","Variance %","Paid","Review"].map(h=><th key={h} style={th}>{h}</th>)}</tr></thead><tbody>{visible.map(r=><tr key={r.id}><td style={td}><b>{r.business}</b><small style={{display:"block",color:"#8994a2",marginTop:4}}>{r.period}</small>{r.flags.map(f=><small key={f} style={{display:"block",color:"#986016",marginTop:3}}>• {f}</small>)}</td><td style={td}>{fmt(r.fiscal)}</td><td style={td}>{fmt(r.declared)}</td><td style={td}>{fmt(r.variance)}</td><td style={td}>{r.pct.toFixed(1)}%</td><td style={td}>{r.paid===null?"Not supplied":fmt(r.paid)}</td><td style={td}><span style={{...badge,background:r.band==="Priority"?"#fdebed":r.band==="Review"?"#fff3dc":"#e9f6f0",color:r.band==="Priority"?"#a52d3a":r.band==="Review"?"#8a5a12":"#08785e"}}>{r.band}</span></td></tr>)}</tbody></table></div>
         {visible.length===0&&<p style={{color:"#718096",fontSize:13}}>No rows in this filter.</p>}
       </section>
