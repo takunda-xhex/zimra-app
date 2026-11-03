@@ -8,6 +8,7 @@ A Zimbabwe-born, regionally extensible concept for an explainable intelligence l
 
 - **Overview:** Enterprise-style workspace with a platform snapshot and module navigation.
 - **Revenue risk:** Synthetic reconciliation examples, explainable deterministic scoring, local case status controls, case explanation API and CSV export.
+- **Reconciliation Lab (`/reconciliation`):** Browser-only CSV analysis for fiscalised sales, declared sales and optional payments; flags variances and duplicate business-period rows, then exports an exception report. No uploaded file is sent to a server by this page.
 - **Customs:** Illustrative HS-code and import-valuation workflow examples.
 - **Integrations:** Proposed integration gateway and source-system connector catalogue. No live connections exist.
 - **Governance:** Pilot-readiness gates and required security, privacy and operational controls.
@@ -19,6 +20,7 @@ A Zimbabwe-born, regionally extensible concept for an explainable intelligence l
 |---|---|
 | Responsive dashboard and navigation | Implemented |
 | Synthetic revenue-risk calculations | Implemented as demonstration rules |
+| Browser-only CSV reconciliation and exception report | Implemented for the documented CSV format |
 | Case explanation endpoint | Implemented as deterministic rule-based text |
 | Local demo case status and CSV export | Implemented in browser state |
 | Customs workflow example | Illustrative UI only |
