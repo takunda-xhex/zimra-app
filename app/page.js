@@ -103,7 +103,7 @@ export default function Page(){
         {o.c.p.map(p=><Bar key={p[0]} label={p[0]} pct={p[1]} max={100} text={"+"+Math.round(p[1])} color={COL[o.c.l]}/>)}
         {o.r[7]?<div className="s">VAT rate check: some receipts appear calculated at the old 15% instead of the 2026 rate of 15.5%.</div>:null}
         <div style={{display:"flex",gap:8,flexWrap:"wrap",margin:"12px 0"}}>
-          <button disabled={busy} onClick={()=>ask(o)}>{busy?"Generating...":"Generate AI case summary"}</button>
+          <button disabled={busy} onClick={()=>ask(o)}>{busy?"Generating...":"Generate case explanation"}</button>
           <button onClick={()=>feedback(o,true)}>Confirm risk</button>
           <button onClick={()=>feedback(o,false)}>Clear case</button>
         </div>
