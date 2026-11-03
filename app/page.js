@@ -90,6 +90,7 @@ export default function Dashboard(){
       <div className="sidebar-card"><div className="shield">✓</div><b>Controlled by design</b><p>Demo data only. No live government systems are connected.</p><Pill tone="warning">Prototype environment</Pill></div>
       <a className="side-link" href="/reconciliation">Reconciliation Lab <span>↗</span></a>
       <a className="side-link" href="/payroll">Payroll integrity module <span>↗</span></a>
+      <a className="side-link" href="/assurance">Operational Assurance Workbench <span>↗</span></a>
       <div className="user-mini"><div className="avatar">ZT</div><span><b>Project team</b><small>Prototype workspace</small></span><span className="dots">•••</span></div>
     </aside>
     <main className="main-area">
