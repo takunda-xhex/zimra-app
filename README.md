@@ -7,6 +7,7 @@ A Zimbabwe-born, regionally extensible concept for an explainable intelligence l
 ## Current demonstration
 
 - **Overview:** Enterprise-style workspace with a platform snapshot and module navigation.
+- **Operational Assurance Workbench (`/assurance`):** Synthetic exception-to-outcome workflow linking control objectives, owners, evidence checklists and closure verification. Local demonstration state only.
 - **Revenue risk:** Synthetic reconciliation examples, explainable deterministic scoring, local case status controls, case explanation API and CSV export.
 - **Reconciliation Lab (`/reconciliation`):** Browser-only CSV analysis for fiscalised sales, declared sales and optional payments; flags variances and duplicate business-period rows, then exports an exception report. No uploaded file is sent to a server by this page.
 - **Customs:** Illustrative HS-code and import-valuation workflow examples.
@@ -59,6 +60,7 @@ npm run build
 - [Product and commercial strategy](docs/PRODUCT-AND-COMMERCIAL-STRATEGY.md)
 - [Target technical architecture](docs/TARGET-TECHNICAL-ARCHITECTURE.md)
 - [Implementation roadmap](docs/IMPLEMENTATION-ROADMAP.md)
+- [Meeting-ready product brief](docs/MEETING-READY-PRODUCT-BRIEF.md)
 
 ## Before a controlled pilot
 
