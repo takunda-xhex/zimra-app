@@ -1,6 +1,6 @@
 "use client";
 import {useState} from "react";
-// Synthetic civil-service payroll records: [name, dept, nationalId, bankAcct, status, lastBiometric, monthsSinceBio, salaryUSD]
+// Synthetic civil-service payroll records: [name, dept, nationalId, bankAcct, status, monthsSinceBio, salaryUSD]
 const E=[
   ["Tendai Moyo","Education","63-112233A47","ACC-558231","Active",1,620],
   ["Farai Chikwava","Health","63-445566B12","ACC-558231","Active",14,540],
@@ -17,12 +17,12 @@ function calc(e){
   const dupId=E.filter(x=>x[2]===e[2]).length>1;
   const dupAcct=E.filter(x=>x[3]===e[3]).length>1;
   const terminated=/Retired|Deceased/.test(e[4]);
-  const noBio=e[6]>=6;
+  const noBio=e[5]>=6;
   let s=0; const p=[];
   if(dupId){s+=35;p.push(["Duplicate national ID",35]);}
   if(dupAcct){s+=25;p.push(["Shared bank account",25]);}
   if(terminated){s+=40;p.push(["Salary still active after termination",40]);}
-  if(noBio){s+=20;p.push(["No biometric check-in for "+e[6]+" months",20]);}
+  if(noBio){s+=20;p.push(["No biometric check-in for "+e[5]+" months",20]);}
   s=Math.min(100,s);
   return{s,p,l:s>=60?"H":s>=30?"M":"L",terminated,dupId,dupAcct,noBio};
 }
@@ -38,7 +38,7 @@ export default function Payroll(){
   const [sel,setSel]=useState(null);
   const rows=E.map((e,i)=>({e,i,c:calc(e)})).sort((a,b)=>b.c.s-a.c.s);
   const flagged=rows.filter(x=>x.c.s>=30);
-  const monthlyAtRisk=flagged.reduce((a,x)=>a+x.e[7],0);
+  const monthlyAtRisk=flagged.reduce((a,x)=>a+x.e[6],0);
   const o=sel!==null?rows.find(x=>x.i===sel):null;
   return <main>
     <p className="s" style={{margin:"0 0 4px"}}><a href="/" style={{color:"var(--acc)"}}>Revenue Intelligence</a> · <b style={{color:"var(--ink)"}}>Payroll Integrity</b></p>
@@ -56,7 +56,7 @@ export default function Payroll(){
     <p className="s" style={{marginTop:10}}>Select a record to see why it was flagged.</p>
     <div className="wrap"><table><thead><tr><th>Name</th><th>Dept</th><th>Status</th><th>Monthly salary</th><th>Score</th></tr></thead><tbody>
       {rows.map(x=><tr key={x.i} className={"r"+(sel===x.i?" sel":"")} onClick={()=>setSel(x.i)}>
-        <td>{x.e[0]}</td><td>{x.e[1]}</td><td>{x.e[4]}</td><td>${x.e[7].toLocaleString()}</td><td className={"sc "+x.c.l}>{x.c.s} {N[x.c.l]}</td></tr>)}
+        <td>{x.e[0]}</td><td>{x.e[1]}</td><td>{x.e[4]}</td><td>${x.e[6].toLocaleString()}</td><td className={"sc "+x.c.l}>{x.c.s} {N[x.c.l]}</td></tr>)}
     </tbody></table></div>
 
     <div className="case">{o?<>
