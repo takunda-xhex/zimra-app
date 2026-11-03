@@ -8,7 +8,7 @@
 
 ## 1. Product thesis
 
-Build an independent intelligence and integration layer that helps authorised institutions make better use of their existing systems. The product should not attempt to replace tax administration, customs, payroll, identity, banking, or other systems of record.
+Build an independent hybrid platform that helps authorised institutions make better use of existing systems through secure integration and workflow augmentation. Integrate first; consider replacing a specific module only when the institution requests it and functional, migration, interoperability, security and acceptance evidence supports the change. The platform must not require a big-bang replacement.
 
 The platform's role is to:
 - Connect to institution-approved data sources through documented interfaces.
@@ -39,8 +39,8 @@ Payroll integrity is a separate potential product line and must only be pursued 
 
 ## 3. Product principles
 
-1. **System of intelligence, not system of record.** Never silently overwrite source-system records.
-2. **Human authority.** No automated tax assessment, enforcement, payroll suspension, seizure, penalty or adverse action.
+1. **Hybrid by design.** Integrate and augment first; selectively replace modules only through institution-approved transition gates. Never silently overwrite source-system records.
+2. **Guarded automation.** Automate bounded, low-risk and reversible routine tasks only after workflow-specific approval. No autonomous tax assessment, enforcement, payroll suspension, seizure, penalty, refund decision or other adverse statutory action.
 3. **Explainability.** Every signal has a readable reason, source, timestamp, calculation and version.
 4. **Privacy by design.** Minimise personal data; prefer aggregation, masking, tokenisation and de-identification where possible.
 5. **Security by default.** Strong authentication, MFA, least privilege, tenant isolation, encryption, secure secrets and auditable operations.
