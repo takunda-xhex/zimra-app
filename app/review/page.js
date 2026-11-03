@@ -39,13 +39,13 @@ export default function ReviewHub() {
       <div className="review-wrap">
         <header className="review-top">
           <a href="/" className="review-brand"><span className="review-mark">Z</span><span><b>OPERATIONAL ASSURANCE</b><small>INDEPENDENT TECHNOLOGY CONCEPT</small></span></a>
-          <nav className="review-links"><a href="/">Platform overview</a><a href="/audit-actions">Audit Action Management ↗</a></nav>
+          <nav className="review-links"><a href="/">Platform overview</a><a href="/audit-actions">Audit Action Management ↗</a><a href="/login">Sign in ↗</a></nav>
         </header>
         <section className="review-hero">
           <div><div className="review-kicker">PRIVATE PRODUCT REVIEW · ZIMBABWE-FIRST</div><h1>Review the working experience.</h1><p>A guided entry point to the current ZIMRA operational technology concept. Open each module, try the available workflows and review what is implemented versus what still needs institutional approval and engineering.</p></div>
           <div className="review-status"><b>Review environment</b><span>● Available for exploration</span><small style={{color:"#c4d1d9",display:"block",marginTop:8,fontSize:9}}>Synthetic demonstration data only</small></div>
         </section>
-        <div className="review-warning"><strong>Important boundary</strong><span>This is an independent concept prototype, not an official ZIMRA product and not endorsed or operated by ZIMRA. The modules below use synthetic examples. The separate Supabase database has been created, but this review interface is not yet connected to it. Do not enter real taxpayer, employee, customs or confidential institutional information.</span></div>
+        <div className="review-warning"><strong>Important boundary</strong><span>This is an independent concept prototype, not an official ZIMRA product and not endorsed or operated by ZIMRA. The modules below use synthetic examples. A dedicated Supabase project and preview-only connection foundation are now configured. Sign-in is available for invited accounts, but the Audit Action screen still uses synthetic browser-only records and is not yet connected to persistent database records. Do not enter real taxpayer, employee, customs or confidential institutional information.</span></div>
         <div className="review-section-head"><div><h2>Explore the application</h2><p>Choose a module to open its interactive demonstration.</p></div></div>
         <div className="review-grid">
           {modules.map(m=><article className="review-card" key={m.n}>
@@ -59,7 +59,7 @@ export default function ReviewHub() {
         <div className="review-status-grid">
           <div className="review-status-card"><b>Separate project created</b><span>Dedicated Supabase project. ZimDeals remains separate and untouched.</span></div>
           <div className="review-status-card"><b>Database structure installed</b><span>Profiles, findings, action plans, evidence metadata and audit events, with initial row-level security policies.</span></div>
-          <div className="review-status-card"><b>Application connection pending</b><span>Sign-in, administrator provisioning, server-side authorisation, persistent records and evidence upload testing still need to be completed.</span></div>
+          <div className="review-status-card"><b>Connection foundation configured</b><span>Supabase SSR clients, session refresh and invitation-only sign-in page are in the review branch. Database-backed records, server-side role enforcement, account provisioning and evidence upload testing remain to be completed.</span></div>
         </div>
         <footer className="review-footer"><span>Independent concept prototype · Not an official government system</span><span>Hybrid integration · Guarded AI · Human accountability</span></footer>
       </div>
