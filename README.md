@@ -54,7 +54,7 @@ Build check:
 npm run build
 ```
 
-## Product and governance documentation
+## Internal Audit flagship module\n\nThe first dedicated internal workflow is available at `/audit-actions`. It demonstrates an audit finding lifecycle: finding and recommendation, management response and action plan, evidence references, independent validation, verified closure and activity history. The role switcher is a demonstration only, not authentication or access control. Records are synthetic and held in browser memory; evidence files are not uploaded. It is not connected to ZIMRA systems or an authoritative audit register.\n\n## Product and governance documentation
 
 - [Regional pilot and deployment readiness](docs/REGIONAL-PILOT-READINESS.md)
 - [Product and commercial strategy](docs/PRODUCT-AND-COMMERCIAL-STRATEGY.md)
