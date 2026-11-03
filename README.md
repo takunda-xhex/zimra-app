@@ -1,14 +1,32 @@
-# ZIMRA Revenue Intelligence Prototype
+# ZIMRA Intelligence Platform (Independent Concept Prototype)
 
-A Zimbabwe-first, globally extensible prototype exploring explainable analytics for revenue-risk review and payroll-integrity screening.
+A Zimbabwe-first, globally extensible concept for an explainable intelligence layer that works alongside institution-owned systems. The product direction is to connect approved data sources, reconcile and analyse authorised information, surface explainable review leads, and keep statutory decisions with authorised human officers.
 
-> **Prototype notice:** This repository is a demonstration only. It is not an official ZIMRA system, is not connected to ZIMRA production systems, and must not be used to make tax, customs, payroll, enforcement, or employment decisions.
+> **Important:** This is an independent concept prototype. It is not an official ZIMRA system, is not endorsed or operated by the Zimbabwe Revenue Authority, and is not connected to live government systems. "ZIMRA" is a working repository/product label only; obtain legal advice on naming, trademark and institutional-affiliation risks before public commercial use. All dashboard records and figures are synthetic demonstration examples unless explicitly documented otherwise.
 
-## Current modules
+## Current demonstration
 
-- **Revenue Intelligence** (`/`): illustrative fiscal-device/VAT reconciliation signals, customs-risk views, import-valuation examples, synthetic company-link analysis, and a revenue-trend tracker.
-- **Payroll Integrity** (`/payroll`): synthetic payroll records used to demonstrate duplicate-identity, shared-account, termination-status, and stale-biometric indicators.
-- **Case explanation API** (`POST /api/case`): validates a supplied case payload and returns a deterministic, rule-based explanation. This endpoint is not a live AI model.
+- **Overview:** Enterprise-style workspace with a platform snapshot and module navigation.
+- **Revenue risk:** Synthetic reconciliation examples, explainable deterministic scoring, local case status controls, case explanation API and CSV export.
+- **Customs:** Illustrative HS-code and import-valuation workflow examples.
+- **Integrations:** Proposed integration gateway and source-system connector catalogue. No live connections exist.
+- **Governance:** Pilot-readiness gates and required security, privacy and operational controls.
+- **Payroll integrity:** Separate synthetic demonstration at `/payroll`; any real use requires authorisation from the relevant employer and data owner.
+
+## What is implemented vs proposed
+
+| Capability | Current state |
+|---|---|
+| Responsive dashboard and navigation | Implemented |
+| Synthetic revenue-risk calculations | Implemented as demonstration rules |
+| Case explanation endpoint | Implemented as deterministic rule-based text |
+| Local demo case status and CSV export | Implemented in browser state |
+| Customs workflow example | Illustrative UI only |
+| Integration gateway and FDMS/TaRMS/ASYCUDA adapters | Not implemented |
+| Production identity, MFA and role-based access | Not implemented |
+| Persistent case database and tamper-evident audit trail | Not implemented |
+| Validated machine-learning models | Not implemented |
+| Production hosting and live government data | Not authorised or configured |
 
 ## Technology
 
@@ -16,7 +34,7 @@ A Zimbabwe-first, globally extensible prototype exploring explainable analytics 
 - React 19
 - Vercel deployment
 
-The current prototype does not have a confirmed ZIMRA Supabase project or a production database integration. Do not connect it to live taxpayer, customs, employee, identity, banking, or biometric data until the responsible data owners approve the architecture, legal basis, security controls, and pilot scope.
+The current app uses synthetic in-code examples. There is no confirmed ZIMRA Supabase project or production database integration. Do not connect live taxpayer, customs, employee, identity, banking or biometric data until the relevant data owners have approved the legal basis, architecture, security controls and pilot scope in writing.
 
 ## Run locally
 
@@ -33,26 +51,22 @@ Build check:
 npm run build
 ```
 
-## Demo data and interpretation
+## Product and governance documentation
 
-All taxpayer, border-post, valuation, company-network, and payroll records in the interface are synthetic examples. Any public revenue figures or tax rates shown in the prototype must be independently checked against current primary sources before a formal presentation. The interface should always distinguish:
-- verified official data,
-- sourced but not yet independently verified data,
-- synthetic demonstration data,
-- model-generated or rule-derived estimates.
-
-A risk score is a triage signal, not evidence of wrongdoing. A qualified officer must verify source records and applicable law before any action.
+- [POTRAZ and pilot-readiness briefing](docs/POTRAZ-PILOT-READINESS.md)
+- [Product and commercial strategy](docs/PRODUCT-AND-COMMERCIAL-STRATEGY.md)
+- [Target technical architecture](docs/TARGET-TECHNICAL-ARCHITECTURE.md)
 
 ## Before a controlled pilot
 
-1. Confirm the sponsoring institution, accountable data owner, business owner, and approved use cases.
-2. Obtain written approvals and a documented lawful basis for each dataset.
-3. Complete a privacy impact assessment and security threat model.
-4. Define role-based access, strong authentication, audit logging, retention, deletion, incident response, backup, and recovery controls.
-5. Use masked or synthetic data in demonstrations; use a separately approved secure environment for any real-data pilot.
-6. Validate every calculation, tax rate, benchmark, source, and model threshold with domain experts.
-7. Test false positives, false negatives, bias, explainability, and human-review procedures.
-8. Agree integration interfaces and data-sharing arrangements with each source-system owner.
-9. Complete independent security testing before handling sensitive or operational data.
+1. Confirm the legal entity, intellectual-property ownership, accountable product owners and institutional sponsors.
+2. Confirm the correct authority and lawful basis for every proposed dataset and use case.
+3. Complete privacy impact and security threat assessments.
+4. Agree approved hosting, data residency, cross-border transfer and data-processing terms.
+5. Implement strong identity, least-privilege access, audit logging, encryption, retention, deletion, backup and incident response.
+6. Validate all calculations, rules, reference values and model thresholds with domain experts.
+7. Test false positives, false negatives, bias, explainability and human-review procedures.
+8. Complete independent security testing and a documented remediation process.
+9. Define pilot success measures, accountable owners, budget, support and a stop/rollback plan.
 
-See [POTRAZ and pilot-readiness briefing](docs/POTRAZ-PILOT-READINESS.md) for a discussion document. It is not a regulatory approval or legal opinion.
+A risk score is a triage signal, not evidence of wrongdoing. A flagged amount is not a tax liability or recovered revenue. No adverse action should be taken solely on an automated output.
