@@ -38,7 +38,7 @@ export default function AssuranceWorkbench(){
     setNotice("Synthetic work queue exported.");
   }
   return <main className="ops-shell"><div className="ops-wrap">
-    <header className="ops-top"><div className="ops-brand"><div className="ops-mark">A</div><div><strong>OPERATIONAL ASSURANCE WORKBENCH</strong><small>INDEPENDENT CONCEPT · ZIMBABWE FIRST</small></div></div><div className="ops-links"><a href="/">← Main platform</a><a href="/reconciliation">Reconciliation Lab ↗</a></div></header>
+    <header className="ops-top"><div className="ops-brand"><div className="ops-mark">A</div><div><strong>OPERATIONAL ASSURANCE WORKBENCH</strong><small>INDEPENDENT CONCEPT · ZIMBABWE FIRST</small></div></div><div className="ops-links"><a href="/audit-actions">Audit Action Management ↗</a><a href="/">← Main platform</a><a href="/reconciliation">Reconciliation Lab ↗</a></div></header>
     <section className="ops-hero"><div><div className="ops-kicker">INTERNAL OPERATIONS · CONTROL EVIDENCE · EXCEPTION RESOLUTION</div><h1>Turn operational signals into verified outcomes.</h1><p>A proposed internal workbench connecting exceptions, control requirements, accountable owners, supporting evidence and independent closure checks. It complements existing systems rather than becoming another system of record.</p></div><aside><b>{open.length}</b><small>open work items in this synthetic dataset</small></aside></section>
     <div className="ops-demo"><b>DEMONSTRATION DATA ONLY.</b> Every work item, owner, age and event shown here is invented. This is not a view into ZIMRA operations, staff, taxpayers or internal audit findings. No institutional systems are connected; status changes remain in this browser session.</div>
     <section className="ops-metrics">
